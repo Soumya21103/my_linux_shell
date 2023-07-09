@@ -1,0 +1,195 @@
+
+
+FOLLOWING ASSUMPTIONS ARE MADE IN THE SHELL:
+    1. the files' name do not have spaces between them
+    2. each blankspace separated text is treated as a diffrent argument regardless of the command
+    3. options cannot be given in -option_Aoption_B way instead should be given separately for eg.
+            rm -ir file  | is not a recognized option instead should be passed as this
+            rm -i -r files 
+        note that some functions may not support use of multiple options at once (see func description)
+    4. usage of "double quotations"  format is not allowed as any kind of space will be treated as a seprator
+    5. all the exec should be present with the shell executable (shell)
+    6. shell shall be invoked from the directory it resides it and then taken out of it via cd
+    7. for the systems safety don't use sudo or be careful while using certain commands such as rm as they have capability of removing
+    all system files
+    8. make sure shell has permission to execute
+
+following commands were implemented:
+exit:
+    exits the shell.
+cd:
+    DESCRIPTION:
+    changes directory of the process
+    
+    cd [-p|-l] PATH...
+    there are two options in cd namely -p and -l
+    1. -p command change the directory of the process to the physical directory i.e it resolves symlinks first and then evaluate
+    ./ and ../ commands
+    2 -l handles the ./ and ../ commands logically before resolving symlink (in case no option is provided this is default)
+    
+    ASSUMPTIONS:
+    1. it does not support multiple options only one option should be given at a time.
+    2. max 3 arguments are allowed
+    3. while providing absolute path it is assumed that there is no need for usage of ./ and ../ (although this might give correct 
+    results in some cases there is no garuntee that it will not break shell)
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+    2. in case of too many arguments it generate error (MAX 3 ARGS)
+
+    CORNER CASE:
+    1. cd left blank will return to HOME (home/user_name)
+    2. handles the cases where the actual path and phyical path do not match up such as in case of symlinks and handle the invocations
+    apropriately
+        
+
+echo:
+    DESCRIPTION:
+    prints the ARG in console 
+
+    echo [-n | -e] ARG
+    there are two options -n and -e 
+    1. -n command omit the newline
+    2. -e character traces the escape sequences starting with '\' following are usable escape sequences
+    
+        \\ backslash
+        \n newline
+        \s whitespace
+        \t horizontal tab
+        \v vertical tab
+        \a alert
+        \b backspace
+        \e escape
+
+
+    ASSUMPTIONS:
+    1. DO NOT USE ' ' while using echo they are treated as separate arguments hence will give error (use -e instead and provide
+     apropriate escape sequence (see echo description))
+    2. it does not support multiple options only one option should be given at a time.
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+    2. in case of too many arguments it generate error (MAX 3 ARGS)
+
+    CORNER CASES:
+    1. in case / is suceeded by an unkown escape sequence it prints / instead of giving error
+    2. in case of need for usage of ' ' it can be done by replacing ' ' by \s
+
+pwd:
+    DESCRIPTION;
+    prints the current working directory in console
+
+    pwd [-p | -l]
+    there are two options -p and -l
+    1. -p command print the physical path of current working directory
+    2. -l command print the working directory with logicaly handling symlink (this is the default)
+
+    ASSUMPTIONS:
+    1. only one option to be used at a time
+
+    ERROR HANDLING:
+    1. give error on invalid options
+    2. any kind of error resulted from system call or c library call is acounted for
+
+    corner cases: its a fairly simple function so no corner cases are present
+
+
+mkdir and mkdir&t:
+    DESCRIPTION:
+    makes a new directory 
+
+    mkdir [-v | -p] FILES...
+    there are two options -v and -p
+    1. -v command notifies directories that are created and failed
+    2. -p in case the parent directory of the directory to be made is not present it runs mkdir for parent directory first recursively
+
+    ASSUMPTIONS
+    1. it wouldn't work with ./ and ../ might generate error in some scenarioswhile simple ones like
+     ../new_folder or ../../new_folder might work
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+
+    CORNER CASES:
+    1. in case of nested directories it is checked if the directory exist or not if not then handles apropriately
+    2. absolute paths are checked separately in order to not have its staring point at working directory
+    3. options can be given in any order and it will not give error
+
+
+rm and rm&t:
+    DESCRIPTION:
+    remove files present in system. DO NOT REMOVE directories by default (only remove by -r)
+
+    rm [-i | -r] FILES...
+    there are two options -i and -r
+    1. -i prompts before deletion of all objects
+    2. -r recursively delete everything inside the mentioned directory (if a directory is provided) and then proceed to delete the 
+    directory
+
+    ASSUMPTIONS:
+    1. don't work with ./ ../ operators provide concrete paths
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+    2. throws error if directory is used without -r option
+
+    CORNER CASE:
+    1. is operatable with absolute paths and can remove any file type with -r option
+    2. options can be given in any order and it will not give error
+
+cat and cat&t:
+    DESCRIPTION:
+    prints the content of the file mentioned in FILES
+
+    cat [-E | -n] FILES...
+    there are two options -E and -n
+    1. -n shows line number along with line
+    2. -E shoes the end of line with $
+
+    ASSUMPTIONS:
+    1. ASCII characters are only permited
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+
+    CORNER CASE:
+    1. in case it encounnters a directory while printing arg files informs that it is a diractory and continues with the execution
+    2. options can be given in any order and it will not provide error
+
+ls and ls&t:
+    list the content of the directory mentioned in PATH. In case nothing is mentioned cwd is set as PATH
+
+    DESCRIPTION:
+    ls [-a | -i] PATH
+    there are two options -a and -i 
+    1. -a options shows all file present in PATH
+    2. -i prints inode value of the files present in PATH
+
+    ASSUMPTIONS:
+    1. only one of the options may be used both option cant be used simultaneously
+    2. the file names will not be sorted
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+    2. too many arguments given (MAX 3 ARGS)
+
+
+
+
+date and date&t:
+    prints the date time of the system or files mentioned (only doable with -r option).
+    DESCRIPTION:
+    date [-u]
+    date [-r & -u] FILES...
+    there are two options -u and -r 
+    1. -u prints the current date time of system in UTC format if used standalone. if used with -r prints the UTC time of the given files
+    2. -r prints the time of last mordification of the given FILES
+
+    ASSUMPTIONS:
+    1. for getting the date of file -r must be used
+
+    ERROR HANDLING:
+    1. any kind of error resulted from system call or c library call is acounted for
+
+    CORNER CASES:
+    1. -r -u can be given in any order and it will not provide error

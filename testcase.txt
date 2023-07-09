@@ -1,0 +1,84 @@
+cd appele
+cd ../guniea
+mkdir -p -v this_is_a_new_folder/a_folder_in_a_folder
+cd ..
+pwd -P 
+pwd -L
+pwd 
+ls -a 
+ls -i 
+cat -n  myshell.c date.c kolkata mkdir.c
+cat  myshell.c date.c kolkata mkdir.c
+cat -E  myshell.c date.c kolkata mkdir.c
+cat -E -n  myshell.c date.c kolkata mkdir.c
+echo -e Hello\sWorld!
+echo -n this_is_
+echo normal
+rm raw.txt
+rm -i -r papua guneia
+date -r myshell myshell.c
+date -r myshell myshell.c -u
+date -u
+date
+cd
+ls
+pwd
+cd /
+pwd
+exit
+
+TEST CASE FOR P_THREADS
+cd appele
+cd ../guniea
+mkdir&t -p -v this_is_a_new_folder/a_folder_in_a_folder
+cd ..
+pwd -P 
+pwd -L
+pwd 
+ls&t -a 
+ls&t -i 
+cat&t -n  myshell.c date.c kolkata mkdir.c
+cat&t  myshell.c date.c kolkata mkdir.c
+cat&t -E  myshell.c date.c kolkata mkdir.c
+cat&t -E -n  myshell.c date.c kolkata mkdir.c
+echo -e Hello\sWorld!
+echo -n this_is_
+echo normal
+rm&t raw.txt
+rm&t -i -r papua guneia
+date&t -r myshell myshell.c
+date&t -r myshell myshell.c -u
+date&t -u
+date&t
+cd
+ls&t
+pwd
+cd /
+pwd
+exit
+
+NOTE SYMLINK FUNCTIONALTY TO BE TESTED SEPARATELY
+these tests are showing all the option of commands and their functionality EXEPT for cd an pwd for which a freshly created symlink is required (to be made at time of demo)
+command to create symlink 
+ln -s /path/to/file /path/to/symlink (not supported in myshell)
+after that following cd and pwd comand can be TESTED
+
+
+cd /path/to/symlink
+pwd 
+pwd -L
+pwd -p
+cd /
+cd -p /path/to/symlink
+pwd 
+pwd -L
+pwd -p
+cd /
+cd -l /path/to/symlink
+pwd 
+pwd -L
+pwd -p
+cd ..
+pwd 
+pwd -L
+pwd -p
